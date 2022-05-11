@@ -7,7 +7,7 @@ from . import misc
 def _validate_input(t, X):
     if not t.is_floating_point():
         raise ValueError("t must both be floating point.")
-    if not X.is_floating_point():
+    if not (X.is_floating_point() or X.is_complex()):
         raise ValueError("X must both be floating point.")
     if len(t.shape) != 1:
         raise ValueError("t must be one dimensional. It instead has shape {}.".format(tuple(t.shape)))
