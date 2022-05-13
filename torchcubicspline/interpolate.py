@@ -235,7 +235,7 @@ def natural_cubic_spline_coeffs(t, x):
     return t, a, b, c, d
 
 
-class NaturalCubicSpline:
+class NaturalCubicSpline(torch.nn.Module):
     """Calculates the natural cubic spline approximation to the batch of controls given. Also calculates its derivative.
 
     Example:
@@ -264,13 +264,8 @@ class NaturalCubicSpline:
         """
         super(NaturalCubicSpline, self).__init__(**kwargs)
 
-        t, a, b, c, d = coeffs
-
-        self._t = t
-        self._a = a
-        self._b = b
-        self._c = c
-        self._d = d
+        for key, val in zip(['_t', '_a', '_b', '_c', '_d'], coeffs):
+            self.register_buffer(key, val)
 
     def _interpret_t(self, t):
         maxlen = self._b.size(-2) - 1
